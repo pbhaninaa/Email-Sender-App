@@ -86,7 +86,7 @@ public class EmailService {
 
             MimeMultipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();
-            String applicationMessage = "Dear Hiring Team,\n\n" +
+            String applicationMessage = "Dear Hiring Team,\n\n"+
                     "I am writing to express my strong interest in potential opportunities within your organization.\n" +
                     "As a highly skilled " + occupation + " with a strong background in the field, I believe that my experience\n" +
                     "and expertise make me a valuable candidate for roles within your company.\n\n" +
