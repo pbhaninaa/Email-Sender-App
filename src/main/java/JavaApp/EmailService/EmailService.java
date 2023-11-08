@@ -13,7 +13,9 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import DbConfig.DbConfigurations;
+import JavaApp.DbConfig.DbConfigurations;
+import JavaApp.RecipientList;
+import JavaApp.UserData;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -28,17 +30,18 @@ public class EmailService {
         return matcher.matches();
     }
 
-    public static List<String> emails() {
-        List<String> emailList = new ArrayList<>();
+    public static List<RecipientList> emails() {
+        List<RecipientList> users = new ArrayList<>();
         Connection connection = DbConfigurations.connectToDatabase();
         if (connection != null) {
             try {
-                String query = "SELECT email FROM users";
+                String query = "SELECT email FROM recruitor_emails ";
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
                     String email = resultSet.getString("email");
-                    emailList.add(email);
+                    RecipientList recipient = new RecipientList(email, "Name","Surname");
+                    users.add(recipient);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -50,9 +53,11 @@ public class EmailService {
                 }
             }
         }
-        return emailList;
+        return users;
     }
-    public static void sendApplicationEmail(String recipientEmail, File[] selectedFiles) {
+
+
+    public static void sendApplicationEmail(String recipientEmail, File[] selectedFiles, UserData userData) {
         String senderEmail = "pbhanina@gmail.com";
         String senderPassword = "thzw pays edyz pomo";
         Properties properties = new Properties();
@@ -66,24 +71,33 @@ public class EmailService {
             }
         });
         try {
-            String name = JOptionPane.showInputDialog("Enter your name:");
-            String surname = JOptionPane.showInputDialog("Enter your surname:");
-            String occupation = JOptionPane.showInputDialog("Enter your occupation:");
-            String position = JOptionPane.showInputDialog("Enter your desired position:");
-            String phone = JOptionPane.showInputDialog("Enter your contact number:");
+            String name = userData.getName();
+            String surname = userData.getSurname();
+            String occupation = userData.getOccupation();
+            String position = userData.getPosition();
+            String phone = userData.getPhone();
 
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
-            String emailSubject = "Application for " + position + " position. ";
+            String emailSubject = "General Inquiry about Job Opportunities";
             message.setSubject(emailSubject);
-
 
             MimeMultipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();
+            String applicationMessage = "Dear Hiring Team,\n\n" +
+                    "I am writing to express my strong interest in potential opportunities within your organization.\n" +
+                    "As a highly skilled " + occupation + " with a strong background in the field, I believe that my experience\n" +
+                    "and expertise make me a valuable candidate for roles within your company.\n\n" +
+                    "My dedication, problem-solving skills, and passion for contributing to the success of the company\n" +
+                    "align perfectly with your organizational goals. I am excited about the possibility of joining your team \n" +
+                    "and contributing to the continued success of your organization.\n\n" +
+                    "Please find attached my resume and other relevant documents for your consideration.\n\n" +
+                    "Thank you for your time and consideration. I look forward to the opportunity to discuss how I can \n" +
+                    "contribute to your organization's success in any suitable role.\n\n" +
+                    "Sincerely,\n" + name + " " + surname + "\n" + phone;
 
-            String applicationMessage = "Dear Hiring Manager,\n\n" + "I am writing to express my strong interest in the " + position + " position at your company.\nAs a highly skilled " + occupation + " with a strong background in the field, I believe that my experience and expertise\nmake me a perfect fit " + "for this role.\n\n" + "My dedication, problem-solving skills, and passion for contributing to the success of the company " + "align perfectly with the job requirements. \nI am excited about the opportunity to join your team and contribute " + "to the continued success of your organization.\n\n" + "Please find attached my resume and other relevant documents for your review.\n\n" + "Thank you for considering my application. I look forward to the opportunity for an interview to discuss " + "how I can contribute to your company's success.\n\n" + "Sincerely,\n" + name + " " + surname + "\n" + phone;
             textPart.setText(applicationMessage);
             multipart.addBodyPart(textPart);
             for (File file : selectedFiles) {

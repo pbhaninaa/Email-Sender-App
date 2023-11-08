@@ -1,11 +1,11 @@
-package DbConfig;
+package JavaApp.DbConfig;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbConfigurations {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/mzi";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/recruitors";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "Philas@12";
     public static Connection connectToDatabase() {
