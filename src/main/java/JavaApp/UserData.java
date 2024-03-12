@@ -13,4 +13,5 @@ public class UserData {
     private String occupation;
     private String position;
     private String phone;
+    private String email;
 }

@@ -14,14 +14,55 @@ import net.sourceforge.tess4j.TesseractException;
 import javax.swing.*;
 
 public class OCRTextExtractor {
-    public static void extractAndSaveEmails(Connection connection) {
-        String text = "pbhanina@gmail.com dikinyekatulisa@gmail.com";
+    public static void extractAndSaveEmails(Connection connection,String position) {
+        boolean pos = position.toLowerCase().trim().contains("security officer");
+        String security = "occusec@occusec.co.za " +
+                "mail@khuselani.co.za " +
+                "admin@vusapmb.co.za " +
+                "tuffguardpmb@telkomsa.net " +
+                "tigerforce@webmail.co.za " +
+                "thabzosec@gmail.com " +
+                "sfiso@sibongilesecurity.co.za " +
+                "redalert@redalert.co.za " +
+                "info@pmbsecurity.co.za " +
+                "midltraincen@telkomsa.net " +
+                "mi7@telkomsa.net " +
+                "pmbnatal@mugnumshield.co.za " +
+                "Ikhwezi@sai.co.za " +
+                "admin@ilangasec.co.za " +
+                "tigerforce@webmail.co.za " +
+                "fssspmb@fidelity.co.za " +
+                "alphinesecurity@telkomsa.net " +
+                "admin@amlec.co.za " +
+                "sancom.sa@gmail.com " +
+                "hrrecuitment@fedelity.co.za";
+        String recruiters = "Recruitment@workforce.co.za" +
+                " coreenm@phakishahldg.co.za" +
+                " Kempton@workforce.co.za" +
+                " recruitment@macdon.co.za" +
+                " grace.sithole@stratogoco.za" +
+                " recruit@cre8work.co.za " +
+                " Recruitmentjb@scribantelabour.co.za" +
+                " Recruitmentjhb@masa.co.za" +
+                " Vmapelane@pple.co.za" +
+                " recruitgp@singamandla.co.za" +
+                " recruiter@hestony.co.za" +
+                " santie@labourflow.co.za" +
+                " pinnacleoutsource@gmail.com" +
+                " drivers@intercape.co.za " +
+                " bongiwe@cargocarriers.co.za" +
+                " hr@ilangaout.co.za " +
+                " recruitment@onelogix.com" +
+                " Sweetness@assign.co.za" +
+                " Wayne@scribantelabour.co.za" +
+                " drivers@assign.co.za" +
+                " Midrand@workforce.co.za" +
+                " Centurion@workforce.co.za" +
+                " lebogangm@dynaniclabour.co.za";
 
-        String[] emails = extractEmailAddresses(text);
-        saveEmailsToDatabase(emails, connection);
-
+        String[] emails = extractEmailAddresses(pos?security:recruiters);
+        saveEmailsToDatabase(emails, connection,position);
     }
-
     public static String[] extractEmailAddresses(String text) {
         // Define a regular expression to match email addresses
         String emailRegex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,7}\\b";
@@ -42,8 +83,9 @@ public class OCRTextExtractor {
     }
 
 
-    public static void createTableIfNotExists(Connection connection) throws SQLException {
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS recruitor_emails (id INT AUTO_INCREMENT PRIMARY KEY, email TEXT)";
+    public static void createTableIfNotExists(Connection connection, String position) throws SQLException {
+
+        String createTableSQL = position.toLowerCase().trim().contains("security officer")?"CREATE TABLE IF NOT EXISTS security_recruiter_emails (id INT AUTO_INCREMENT PRIMARY KEY, email TEXT)":"CREATE TABLE IF NOT EXISTS recruiter_emails (id INT AUTO_INCREMENT PRIMARY KEY, email TEXT)";
 
         try (Statement statement = connection.createStatement()) {
             statement.execute(createTableSQL);
@@ -51,12 +93,13 @@ public class OCRTextExtractor {
         System.out.println("Table Created!!");
     }
 
-    public static void saveEmailsToDatabase(String[] emails, Connection connection) {
+    public static void saveEmailsToDatabase(String[] emails, Connection connection,String position) {
+        boolean pos = position.toLowerCase().trim().contains("security officer");
         // Define the SQL query to check if an email exists in the table
-        String checkExistenceQuery = "SELECT email FROM recruitor_emails WHERE email = ?";
+        String checkExistenceQuery = pos?"SELECT email FROM security_recruiter_emails WHERE email = ?":"SELECT email FROM recruiter_emails WHERE email = ?";
 
         // Define the SQL query to insert email addresses into the table
-        String insertQuery = "INSERT INTO recruitor_emails (email) VALUES (?)";
+        String insertQuery = pos?"INSERT INTO security_recruiter_emails (email) VALUES (?)":"INSERT INTO recruiter_emails (email) VALUES (?)";
 
         try (PreparedStatement checkExistenceStatement = connection.prepareStatement(checkExistenceQuery);
              PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {

@@ -30,12 +30,13 @@ public class EmailService {
         return matcher.matches();
     }
 
-    public static List<RecipientList> emails() {
+    public static List<RecipientList> emails(String position) {
         List<RecipientList> users = new ArrayList<>();
         Connection connection = DbConfigurations.connectToDatabase();
         if (connection != null) {
             try {
-                String query = "SELECT email FROM recruitor_emails ";
+
+                String query =position.toLowerCase().trim().contains("security officer")? "SELECT email FROM security_recruiter_emails ":"SELECT email FROM recruiter_emails ";
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
@@ -58,8 +59,9 @@ public class EmailService {
 
 
     public static void sendApplicationEmail(String recipientEmail, File[] selectedFiles, UserData userData) {
-        String senderEmail = "pbhanina@gmail.com";
-        String senderPassword = "yqsj pucy gruw dtdl";
+        String senderEmail = "job.application.software@gmail.com";
+        String senderPassword = "qdlo upmy mlif vhri";
+        String doNotReplyAddress = "Do not reply to this email (via Job.App) <job.application.software@gmail.com>";
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.auth", "true");
@@ -81,6 +83,7 @@ public class EmailService {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+            message.setReplyTo(InternetAddress.parse(doNotReplyAddress));
             String emailSubject = "Application for "+position+" position";
             message.setSubject(emailSubject);
 
@@ -96,7 +99,7 @@ public class EmailService {
                     "Please find attached my resume and other relevant documents for your consideration.\n\n" +
                     "Thank you for your time and consideration. I look forward to the opportunity to discuss how I can \n" +
                     "contribute to your organization's success in any suitable role.\n\n" +
-                    "Sincerely,\n" + name + " " + surname + "\n" + phone;
+                    "Sincerely,\n" + name + " " + surname + "\n" + userData.getEmail() +"\n" +phone;
 
             textPart.setText(applicationMessage);
             multipart.addBodyPart(textPart);
