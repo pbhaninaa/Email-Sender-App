@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class JavaAppApplication {
-private static Connection connection =DbConfigurations.connectToDatabase();
+private static final Connection connection =DbConfigurations.connectToDatabase();
 static String name;
 static String surname;
 static String occupation;
@@ -53,23 +53,20 @@ public static void fields(){
                     if (email.matches("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b")){
                         if (selectedFiles.length > 0) {
                             List<RecipientList> emailList = EmailService.emails(position);
+                            for (RecipientList recipient : emailList) {
+                                String email = recipient.getEmail();
+                                        EmailService.emails(position);
+                                        EmailService.sendApplicationEmail(email, selectedFiles, userData);
+                                        System.out.println("Sent to "+ email );
 
-//                for (RecipientList recipient : emailList) {
-//                    String email = recipient.getEmail();
-                            String email = "thembatwane@gmail.com";
-                            EmailService.emails(position);
-
-                            EmailService.sendApplicationEmail(email, selectedFiles, userData);
-                            System.out.println("Sent to "+ email );
-
-//                }
+                            }
                             JOptionPane.showMessageDialog(null, "Done. Thank you!!", "Info", JOptionPane.INFORMATION_MESSAGE);
-
                         } else {
                             JOptionPane.showMessageDialog(null,"No files selected. Application failed.","Error",JOptionPane.ERROR_MESSAGE);
+                            fields();
                         }
-                        fields();
                     }
+                    JOptionPane.showMessageDialog(null,"Email Address is incorrect. Application failed.","Error",JOptionPane.ERROR_MESSAGE);
                     fields();
                 }
                 JOptionPane.showMessageDialog(null,"Phone Number must be in Numerics and should be 10 numbers!. Application failed.","Error",JOptionPane.ERROR_MESSAGE);
