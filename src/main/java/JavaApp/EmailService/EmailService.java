@@ -59,7 +59,7 @@ public class EmailService {
 
     public static void sendApplicationEmail(String recipientEmail, File[] selectedFiles, UserData userData) {
         String senderEmail = "pbhanina@gmail.com";
-        String senderPassword = "thzw pays edyz pomo";
+        String senderPassword = "yqsj pucy gruw dtdl";
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.auth", "true");
@@ -71,22 +71,22 @@ public class EmailService {
             }
         });
         try {
+
             String name = userData.getName();
             String surname = userData.getSurname();
             String occupation = userData.getOccupation();
             String position = userData.getPosition();
             String phone = userData.getPhone();
 
-
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
-            String emailSubject = "General Inquiry about Job Opportunities";
+            String emailSubject = "Application for "+position+" position";
             message.setSubject(emailSubject);
 
             MimeMultipart multipart = new MimeMultipart();
             MimeBodyPart textPart = new MimeBodyPart();
-            String applicationMessage = "Dear Hiring Team,\n\n"+
+            String applicationMessage = "Dear Hiring Team,\n\n" +
                     "I am writing to express my strong interest in potential opportunities within your organization.\n" +
                     "As a highly skilled " + occupation + " with a strong background in the field, I believe that my experience\n" +
                     "and expertise make me a valuable candidate for roles within your company.\n\n" +

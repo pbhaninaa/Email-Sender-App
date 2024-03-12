@@ -15,12 +15,7 @@ import javax.swing.*;
 
 public class OCRTextExtractor {
     public static void extractAndSaveEmails(Connection connection) {
-        String text = "1. Recruitment@workforce.co.za 2. coreenm@phakishahldg.co.za 3. Kempton@workforce.co.za 4. recruitment@macdon.co.za 5. grace.sithole@stratogoco.za 6. recruit@cre8work.co.za " +
-                "7. Recruitmentjb@scribantelabour.co.za 8. Recruitmentjhb@masa.co.za 9. Vmapelane@pple.co.za 10. recruitgp@singamandla.co.za " +
-                "11. recruiter@hestony.co.za 12. santie@labourflow.co.za 13. pinnacleoutsource@gmail.com 14. drivers@intercape.co.za " +
-                "15. bongiwe@cargocarriers.co.za 16. hr@ilangaout.co.za " +
-                "17. recruitment@onelogix.com 18. Sweetness@assign.co.za 19. Wayne@scribantelabour.co.za 20. drivers@assign.co.za " +
-                "21. Midrand@workforce.co.za 22. Centurion@workforce.co.za 23. lebogangm@dynaniclabour.co.za ";
+        String text = "pbhanina@gmail.com dikinyekatulisa@gmail.com";
 
         String[] emails = extractEmailAddresses(text);
         saveEmailsToDatabase(emails, connection);
