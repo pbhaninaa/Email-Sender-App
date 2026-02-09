@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,14 +25,70 @@ static String occupation;
 static String position;
 static String phone;
 static String email;
-public static void fields(){
-    name = JOptionPane.showInputDialog("Enter your name:");
-    surname = JOptionPane.showInputDialog("Enter your surname:");
-    occupation = JOptionPane.showInputDialog("Enter your occupation:");
-    position = JOptionPane.showInputDialog("Enter your desired position:");
-    phone = JOptionPane.showInputDialog("Enter your contact number:");
-    email = JOptionPane.showInputDialog("Enter your email address:");
-}
+    public static void fields() {
+        JTextField nameField = new JTextField();
+        JTextField surnameField = new JTextField();
+        JTextField occupationField = new JTextField();
+        JTextField positionField = new JTextField();
+        JTextField phoneField = new JTextField();
+        JTextField emailField = new JTextField();
+
+        JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
+        panel.add(new JLabel("Name:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Surname:"));
+        panel.add(surnameField);
+        panel.add(new JLabel("Occupation:"));
+        panel.add(occupationField);
+        panel.add(new JLabel("Desired Position:"));
+        panel.add(positionField);
+        panel.add(new JLabel("Contact Number:"));
+        panel.add(phoneField);
+        panel.add(new JLabel("Email Address:"));
+        panel.add(emailField);
+
+        while (true) {
+            int result = JOptionPane.showConfirmDialog(
+                    null,
+                    panel,
+                    "Enter Your Details",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.PLAIN_MESSAGE
+            );
+
+            if (result != JOptionPane.OK_OPTION) {
+                return;
+            }
+
+            // 🔍 Validation
+            if (nameField.getText().trim().isEmpty() ||
+                    surnameField.getText().trim().isEmpty() ||
+                    occupationField.getText().trim().isEmpty() ||
+                    positionField.getText().trim().isEmpty() ||
+                    phoneField.getText().trim().isEmpty() ||
+                    emailField.getText().trim().isEmpty()) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "All fields are required. Please fill in all fields.",
+                        "Validation Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                continue; // reopen dialog
+            }
+
+            // ✅ All fields valid
+            name = nameField.getText().trim();
+            surname = surnameField.getText().trim();
+            occupation = occupationField.getText().trim();
+            position = positionField.getText().trim();
+            phone = phoneField.getText().trim();
+            email = emailField.getText().trim();
+            break;
+        }
+    }
+
+
 
     public static void main(String[] args) throws SQLException {
         fields();

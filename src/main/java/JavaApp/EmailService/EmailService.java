@@ -1,6 +1,7 @@
 package JavaApp.EmailService;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -121,12 +122,23 @@ public class EmailService {
     public static File[] selectFiles() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setMultiSelectionEnabled(true);
-        int result = fileChooser.showOpenDialog(null);
 
-        if (result == JFileChooser.APPROVE_OPTION) {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.add(new JLabel("Please select the files to upload:"), BorderLayout.NORTH);
+        panel.add(fileChooser, BorderLayout.CENTER);
+
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                panel,
+                "File Selection",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result == JOptionPane.OK_OPTION) {
             return fileChooser.getSelectedFiles();
-        } else {
-            return new File[0];
         }
+        return new File[0];
     }
+
 }

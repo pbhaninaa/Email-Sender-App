@@ -16,49 +16,52 @@ import javax.swing.*;
 public class OCRTextExtractor {
     public static void extractAndSaveEmails(Connection connection,String position) {
         boolean pos = position.toLowerCase().trim().contains("security officer");
-        String security = "occusec@occusec.co.za " +
-                "mail@khuselani.co.za " +
-                "admin@vusapmb.co.za " +
-                "tuffguardpmb@telkomsa.net " +
-                "tigerforce@webmail.co.za " +
-                "thabzosec@gmail.com " +
-                "sfiso@sibongilesecurity.co.za " +
-                "redalert@redalert.co.za " +
-                "info@pmbsecurity.co.za " +
-                "midltraincen@telkomsa.net " +
-                "mi7@telkomsa.net " +
-                "pmbnatal@mugnumshield.co.za " +
-                "Ikhwezi@sai.co.za " +
-                "admin@ilangasec.co.za " +
-                "tigerforce@webmail.co.za " +
-                "fssspmb@fidelity.co.za " +
-                "alphinesecurity@telkomsa.net " +
-                "admin@amlec.co.za " +
-                "sancom.sa@gmail.com " +
-                "hrrecuitment@fedelity.co.za";
-        String recruiters = "Recruitment@workforce.co.za" +
-                " coreenm@phakishahldg.co.za" +
-                " Kempton@workforce.co.za" +
-                " recruitment@macdon.co.za" +
-                " grace.sithole@stratogoco.za" +
-                " recruit@cre8work.co.za " +
-                " Recruitmentjb@scribantelabour.co.za" +
-                " Recruitmentjhb@masa.co.za" +
-                " Vmapelane@pple.co.za" +
-                " recruitgp@singamandla.co.za" +
-                " recruiter@hestony.co.za" +
-                " santie@labourflow.co.za" +
-                " pinnacleoutsource@gmail.com" +
-                " drivers@intercape.co.za " +
-                " bongiwe@cargocarriers.co.za" +
-                " hr@ilangaout.co.za " +
-                " recruitment@onelogix.com" +
-                " Sweetness@assign.co.za" +
-                " Wayne@scribantelabour.co.za" +
-                " drivers@assign.co.za" +
-                " Midrand@workforce.co.za" +
-                " Centurion@workforce.co.za" +
-                " lebogangm@dynaniclabour.co.za";
+        String security = "pbhanina@gmail.com " ;
+//                +
+//                "mail@khuselani.co.za " +
+//                "admin@vusapmb.co.za " +
+//                "tuffguardpmb@telkomsa.net " +
+//                "tigerforce@webmail.co.za " +
+//                "thabzosec@gmail.com " +
+//                "sfiso@sibongilesecurity.co.za " +
+//                "redalert@redalert.co.za " +
+//                "info@pmbsecurity.co.za " +
+//                "midltraincen@telkomsa.net " +
+//                "mi7@telkomsa.net " +
+//                "pmbnatal@mugnumshield.co.za " +
+//                "Ikhwezi@sai.co.za " +
+//                "admin@ilangasec.co.za " +
+//                "tigerforce@webmail.co.za " +
+//                "fssspmb@fidelity.co.za " +
+//                "alphinesecurity@telkomsa.net " +
+//                "admin@amlec.co.za " +
+//                "sancom.sa@gmail.com " +
+//                "hrrecuitment@fedelity.co.za";
+        String recruiters = "kwazibhani@gmail.com"
+//                +
+//                " coreenm@phakishahldg.co.za" +
+//                " Kempton@workforce.co.za" +
+//                " recruitment@macdon.co.za" +
+//                " grace.sithole@stratogoco.za" +
+//                " recruit@cre8work.co.za " +
+//                " Recruitmentjb@scribantelabour.co.za" +
+//                " Recruitmentjhb@masa.co.za" +
+//                " Vmapelane@pple.co.za" +
+//                " recruitgp@singamandla.co.za" +
+//                " recruiter@hestony.co.za" +
+//                " santie@labourflow.co.za" +
+//                " pinnacleoutsource@gmail.com" +
+//                " drivers@intercape.co.za " +
+//                " bongiwe@cargocarriers.co.za" +
+//                " hr@ilangaout.co.za " +
+//                " recruitment@onelogix.com" +
+//                " Sweetness@assign.co.za" +
+//                " Wayne@scribantelabour.co.za" +
+//                " drivers@assign.co.za" +
+//                " Midrand@workforce.co.za" +
+//                " Centurion@workforce.co.za" +
+//                " lebogangm@dynaniclabour.co.za"
+                ;
 
         String[] emails = extractEmailAddresses(pos?security:recruiters);
         saveEmailsToDatabase(emails, connection,position);
