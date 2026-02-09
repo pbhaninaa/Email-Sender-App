@@ -60,33 +60,63 @@ static String email;
                 return;
             }
 
-            // 🔍 Validation
-            if (nameField.getText().trim().isEmpty() ||
-                    surnameField.getText().trim().isEmpty() ||
-                    occupationField.getText().trim().isEmpty() ||
-                    positionField.getText().trim().isEmpty() ||
-                    phoneField.getText().trim().isEmpty() ||
-                    emailField.getText().trim().isEmpty()) {
+            String nameTxt = nameField.getText().trim();
+            String surnameTxt = surnameField.getText().trim();
+            String occupationTxt = occupationField.getText().trim();
+            String positionTxt = positionField.getText().trim();
+            String phoneTxt = phoneField.getText().trim();
+            String emailTxt = emailField.getText().trim();
 
-                JOptionPane.showMessageDialog(
-                        null,
-                        "All fields are required. Please fill in all fields.",
-                        "Validation Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                continue; // reopen dialog
+            if (nameTxt.isEmpty() || surnameTxt.isEmpty() || occupationTxt.isEmpty()
+                    || positionTxt.isEmpty() || phoneTxt.isEmpty() || emailTxt.isEmpty()) {
+
+                showError("All fields are required.");
+                continue;
             }
 
-            // ✅ All fields valid
-            name = nameField.getText().trim();
-            surname = surnameField.getText().trim();
-            occupation = occupationField.getText().trim();
-            position = positionField.getText().trim();
-            phone = phoneField.getText().trim();
-            email = emailField.getText().trim();
+            if (!nameTxt.matches("[a-zA-Z ]+")) {
+                showError("Name must contain letters only.");
+                nameField.requestFocus();
+                continue;
+            }
+
+            if (!surnameTxt.matches("[a-zA-Z ]+")) {
+                showError("Surname must contain letters only.");
+                surnameField.requestFocus();
+                continue;
+            }
+
+            if (!phoneTxt.matches("\\d{10,15}")) {
+                showError("Contact number must be numeric (10–15 digits).");
+                phoneField.requestFocus();
+                continue;
+            }
+
+            if (!emailTxt.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                showError("Please enter a valid email address.");
+                emailField.requestFocus();
+                continue;
+            }
+
+            name = nameTxt;
+            surname = surnameTxt;
+            occupation = occupationTxt;
+            position = positionTxt;
+            phone = phoneTxt;
+            email = emailTxt;
             break;
         }
     }
+
+    private static void showError(String message) {
+        JOptionPane.showMessageDialog(
+                null,
+                message,
+                "Validation Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
 
 
 
@@ -107,8 +137,7 @@ static String email;
                 fields();
             } else {
                 if (phone.matches("\\d{10}")){
-                    if (email.matches("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b")){
-                        if (selectedFiles.length > 0) {
+
                             List<RecipientList> emailList = EmailService.emails(position);
                             for (RecipientList recipient : emailList) {
                                 String email = recipient.getEmail();
@@ -122,12 +151,7 @@ static String email;
                             JOptionPane.showMessageDialog(null,"No files selected. Application failed.","Error",JOptionPane.ERROR_MESSAGE);
                             fields();
                         }
-                    }
-                    JOptionPane.showMessageDialog(null,"Email Address is incorrect. Application failed.","Error",JOptionPane.ERROR_MESSAGE);
-                    fields();
-                }
-                JOptionPane.showMessageDialog(null,"Phone Number must be in Numerics and should be 10 numbers!. Application failed.","Error",JOptionPane.ERROR_MESSAGE);
-                fields();
+
             }
 
         }, 0, 5, TimeUnit.DAYS);

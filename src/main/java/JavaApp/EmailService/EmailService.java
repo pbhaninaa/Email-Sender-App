@@ -60,8 +60,8 @@ public class EmailService {
 
 
     public static void sendApplicationEmail(String recipientEmail, File[] selectedFiles, UserData userData) {
-        String senderEmail = "job.application.software@gmail.com";
-        String senderPassword = "qdlo upmy mlif vhri";
+        String senderEmail = "jaystarven@gmail.com";
+        String senderPassword = "scnw cblt ownq kejp";
         String doNotReplyAddress = "Do not reply to this email (via Job.App) <job.application.software@gmail.com>";
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
